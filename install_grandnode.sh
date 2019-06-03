@@ -1,9 +1,15 @@
+#!/bin/bash
+
+# this declares that current user is a sudoer
+sudo tee /etc/sudoers.d/$USER <<END
+END
+
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 sudo apt-get update
 sudo apt update
 sudo apt-get install -y mongodb
-sudo service mongod start
+sudo service mongodb start
 sudo apt-get install apache2
 
 mongo --eval 'db.createUser({user: "grandnodeuser",pwd: "new_password_here",roles: [ "dbOwner" ]});' grandnode
@@ -20,7 +26,7 @@ sudo apt-get update
 sudo apt-get install dotnet-sdk-2.2
 
 sudo apt-get install unzip libgdiplus
-sudo wget https://github.com/grandnode/grandnode/releases/download/4.30/GrandNode4.30_NoSource.Web.zip
+sudo wget -P /tmp https://github.com/grandnode/grandnode/releases/download/4.30/GrandNode4.30_NoSource.Web.zip
 sudo unzip -d /var/www/html/grandnode /tmp/GrandNode4.30_NoSource.Web.zip
 
 sudo chown -R www-data:www-data /var/www/html/grandnode
